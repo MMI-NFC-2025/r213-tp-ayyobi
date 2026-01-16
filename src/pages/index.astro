@@ -3,5 +3,54 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout titre="Accueil">
-  <h1 class="text-2xl font-bold">Accueil</h1>
+  <section
+    class="relative overflow-hidden rounded-3xl border p-6 md:p-10"
+  >
+    <div
+      class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full"
+    ></div>
+    <div
+      class="pointer-events-none absolute -bottom-20 -left-16 h-48 w-48 rounded-full"
+    ></div>
+
+    <div class="relative space-y-4">
+      <p
+        class="text-xs uppercase tracking-[0.3em] text-[var(--brand-muted)] motion-safe:animate-[rise_0.6s_ease-out_both]"
+      >
+        Agence immobiliere
+      </p>
+      <h1
+        class="text-3xl font-semibold text-[var(--brand-ink)] md:text-5xl font-['Fraunces'] motion-safe:animate-[rise_0.6s_ease-out_both]"
+        style="animation-delay: 0.05s"
+      >
+        Trouvez le bien qui vous ressemble, quartier par quartier.
+      </h1>
+      <p
+        class="max-w-2xl text-base text-slate-600 md:text-lg motion-safe:animate-[rise_0.6s_ease-out_both]"
+        style="animation-delay: 0.1s"
+      >
+        Nous selectionnons des logements lumineux, bien situes et prets a
+        visiter. Un parcours simple, des offres claires, et un suivi humain.
+      </p>
+      <div
+        class="flex flex-wrap gap-3 motion-safe:animate-[rise_0.6s_ease-out_both]"
+        style="animation-delay: 0.15s"
+      >
+        <a
+          class="rounded-full px-5 py-2 text-sm font-semibold  shadow-sm"
+          href="/offres"
+        >
+          Voir les offres
+        </a>
+        <a
+          class="rounded-full border px-5 py-2 text-sm font-semibold text-slate-700 transition"
+          href="#services"
+        >
+          Nos services
+        </a>
+      </div>
+    </div>
+  </section>
+
+
 </Layout>
