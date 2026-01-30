@@ -1,8 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import OffreCard from "../components/OffreCard.astro";
+import { getOffres } from "../backend.mjs";
 
-const offres = [
+const offres = await getOffres();
+
+/*const offres = [
   {
     adresse: "2821 Lake Sevilla, Palm Harbor, TX",
     favori: true,
@@ -36,7 +39,8 @@ const offres = [
     surface: 80,
     imgUrl: "image3.png",
   },
-];
+];*/
+
 ---
 
 <Layout titre="Offres">
