@@ -3,7 +3,7 @@ const pb = new PocketBase("http://127.0.0.1:8090");
 
 export async function getOffres() {
     try {
-        let data = await db.collection('Maison').getFullList({
+        let data = await pb.collection('Maison').getFullList({
             sort: '-created',
         });
         return data;
