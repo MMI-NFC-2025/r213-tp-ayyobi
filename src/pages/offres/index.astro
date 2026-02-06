@@ -62,12 +62,24 @@ const offres = await getOffres();
     }
   </div>
 
-  <a
-    href="/offres/surface/80"
-    class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
-  >
-    Voir les maisons de plus de 80 m²
-  </a>
+  <div class="flex gap-4">
+    <a
+      href="/offres/surface/80"
+      class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
+    >
+      Voir les maisons de plus de 80 m²
+    </a>
+    <a
+      href="/offres/prix/250000"
+      class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
+      >Moins de 250k</a
+    >
+    <a
+      href="/offres/prix/200000/300000"
+      class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
+      >200k → 300k</a
+    >
+  </div>
 </Layout>
 
 <script>

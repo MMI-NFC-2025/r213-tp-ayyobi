@@ -28,6 +28,8 @@ export async function getOffre(id) {
     }
 }
 
+
+// Fonction pour obtenir les offres avec une surface minimale
 export async function getOffresMinSurface(surface) {
   try {
     const data = await pb.collection('Maison').getFullList({
@@ -40,4 +42,19 @@ export async function getOffresMinSurface(surface) {
     return [];
   }
 }
+
+export async function getOffresMaxPrix(maxPrix) {
+  try {
+    const data = await pb.collection("Maison").getFullList({
+      filter: `prix < ${maxPrix}`,
+      sort: "prix",
+    });
+    return data;
+  } catch (error) {
+    console.log("Erreur lecture maisons par prix", error);
+    return [];
+  }
+}
+
+
 
