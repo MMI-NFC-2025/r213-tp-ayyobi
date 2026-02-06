@@ -40,17 +40,19 @@ const offres = await getOffres();
     imgUrl: "image3.png",
   },
 ];*/
-
 ---
 
 <Layout titre="Offres">
   <h1 class="text-2xl font-bold">Offres</h1>
   <button
     id="favori-button"
-    class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm" href="/offres">
+    class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm"
+    href="/offres"
+  >
     Afficher les favoris
   </button>
-  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
+
+  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {
       offres.map((offre) => (
         <div class="offre" data-favori={offre.favori.toString()}>
@@ -59,6 +61,13 @@ const offres = await getOffres();
       ))
     }
   </div>
+
+  <a
+    href="/offres/surface/80"
+    class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
+  >
+    Voir les maisons de plus de 80 m²
+  </a>
 </Layout>
 
 <script>

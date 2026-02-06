@@ -1,12 +1,13 @@
 ---
-import PbImage from "./PbImage.astro";
+import PbImage from "../components/PbImage.astro";
 const { offre } = Astro.props;
 //onsole.log({offre});
-
 ---
 
 <article class="rounded-lg p-4 shadow-sm rounded-full">
-  <PbImage record={offre} recordImage={offre.images} />
+  <div class="h-44 sm:h-48 overflow-hidden rounded-xl bg-slate-100">
+    <PbImage record={offre} recordImage={offre.images} />
+  </div>
   <h2 class="text-lg font-semibold">{offre.nom_maison}</h2>
   <button
     class="mt-2 px-2 py-1 text-xs rounded-md border
@@ -17,7 +18,10 @@ const { offre } = Astro.props;
   >
     {offre.favori ? "⭐ Favori" : "☆ ajouter aux favoris"}
   </button>
-  <a href={`/offres/${offre.id}`} class="text-blue-600 underline">
+  <a
+    href={`/offres/${offre.id}`}
+    class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm"
+  >
     Voir plus
   </a>
 </article>

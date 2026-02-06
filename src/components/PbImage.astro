@@ -12,9 +12,10 @@ const imageURL = await getImageUrl(record, recordImage);
     <Image
       src={imageURL}
       alt={record.nom_evenement || "Image"}
-      width={224}
-      height={144}
-      class="object-cover w-full h-full"
+      width={800}
+      height={500}
+      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+      class="block w-full h-full object-cover"
     />
   )
 }

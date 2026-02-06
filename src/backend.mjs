@@ -12,12 +12,12 @@ export async function getOffres() {
         return [];
     }
 }
-
+// Fonction pour obtenir l'URL d'une image à partir d'un enregistrement et du champ image   
 export async function getImageUrl(record, recordImage) {
     return pb.files.getURL(record, recordImage);
 }
 
-
+// Exemple de fonction pour obtenir une offre par ID
 export async function getOffre(id) {
     try {
         const data = await pb.collection('Maison').getOne(id);
@@ -27,3 +27,17 @@ export async function getOffre(id) {
         return null;
     }
 }
+
+export async function getOffresMinSurface(surface) {
+  try {
+    const data = await pb.collection('Maison').getFullList({
+      filter: `surface >= ${surface}`,
+    });
+
+    return data;
+  } catch (error) {
+    console.log("Erreur surface", error);
+    return [];
+  }
+}
+
