@@ -43,6 +43,8 @@ export async function getOffresMinSurface(surface) {
   }
 }
 
+
+// fonction pour ontenir les offres à prix moin de 250000
 export async function getOffresMaxPrix(maxPrix) {
   try {
     const data = await pb.collection("Maison").getFullList({
@@ -52,6 +54,23 @@ export async function getOffresMaxPrix(maxPrix) {
     return data;
   } catch (error) {
     console.log("Erreur lecture maisons par prix", error);
+    return [];
+  }
+}
+
+// fonction pour ontenir les offres à prix entre 200000 et 300000
+export async function getOffresBetweenPrix(minPrix, maxPrix) {
+  try {
+    const min = Math.min(minPrix, maxPrix);
+    const max = Math.max(minPrix, maxPrix);
+
+    const data = await pb.collection("Maison").getFullList({
+      filter: `prix >= ${min} && prix <= ${max}`,
+      sort: "prix",
+    });
+    return data;
+  } catch (error) {
+    console.log("Erreur lecture maisons entre deux prix", error);
     return [];
   }
 }
