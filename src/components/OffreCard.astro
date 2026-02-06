@@ -1,21 +1,13 @@
 ---
 import PbImage from "./PbImage.astro";
 const { offre } = Astro.props;
+//onsole.log({offre});
+
 ---
 
 <article class="rounded-lg p-4 shadow-sm rounded-full">
   <PbImage record={offre} recordImage={offre.images} />
-  <h2 class="text-lg font-semibold">{offre.nomMaison}</h2>
-  <p class="text-slate-600">{offre.adresse}</p>
-
-  <div class="mt-2 flex gap-3 text-sm">
-    <span>{offre.nbChambres} ch</span>
-    <span>{offre.nbSdb} sdb</span>
-    <span>{offre.surface} m²</span>
-  </div>
-
-  <p class="mt-2 font-bold">{offre.prix} € / mois</p>
-
+  <h2 class="text-lg font-semibold">{offre.nom_maison}</h2>
   <button
     class="mt-2 px-2 py-1 text-xs rounded-md border
          transition
@@ -23,6 +15,9 @@ const { offre } = Astro.props;
            ? 'bg-yellow-200 border-yellow-400 text-yellow-900'
            : 'bg-gray-100 border-gray-300 text-gray-600'}"
   >
-    {offre.favori ? "⭐ Favori" : "☆ Non favori"}
+    {offre.favori ? "⭐ Favori" : "☆ ajouter aux favoris"}
   </button>
+  <a href={`/offres/${offre.id}`} class="text-blue-600 underline">
+    Voir plus
+  </a>
 </article>
