@@ -26,46 +26,16 @@ if (Astro.request.method === "POST") {
 } else {
   offres = await getOffres();
 }
-/*const offres = [
-  {
-    adresse: "2821 Lake Sevilla, Palm Harbor, TX",
-    favori: true,
-    id: "64l3n8nar836i5j",
-    nbChambres: 4,
-    nbSdb: 2,
-    nomMaison: "Beverly Springfield",
-    prix: 2700,
-    surface: 45,
-    imgUrl: "image1.png",
-  },
-  {
-    adresse: "2699 Green Valley, Highland Lake",
-    favori: true,
-    id: "lo831zeg10hpm9y",
-    nbChambres: 4,
-    nbSdb: 2,
-    nomMaison: "Palm Harbor",
-    prix: 2095,
-    surface: 42,
-    imgUrl: "image2.png",
-  },
-  {
-    adresse: "909 Woodland St, Michigan, IN",
-    favori: false,
-    id: "s1zuhj19x8eb242",
-    nbChambres: 4,
-    nbSdb: 3,
-    nomMaison: "Faulkner Ave",
-    prix: 4550,
-    surface: 80,
-    imgUrl: "image3.png",
-  },
-];*/
 ---
 
 <Layout titre="Offres">
   <h1 class="text-2xl font-bold">Offres</h1>
-  <form action="/offres" method="POST" class="mt-4 flex gap-2">
+
+  <form
+    action="/offres"
+    method="POST"
+    class="mt-4 flex flex-wrap gap-2 items-center"
+  >
     <input
       type="number"
       name="minPrix"
@@ -81,40 +51,47 @@ if (Astro.request.method === "POST") {
     <input
       type="submit"
       value="Filtrer par prix"
-      class="p-2 bg-black text-white rounded cursor-pointer"
+      class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm cursor-pointer"
     />
   </form>
+
   {message && <p class="mt-3 p-2 border rounded">{message}</p>}
-  <div class="flex gap-4">
+
+  <div class="flex gap-4 flex-wrap">
     <a
       id="favori-button"
       class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
-      href="/offres"
+      href="javascript:void(0)"
     >
       Afficher les favoris
     </a>
+
     <a
       href="/offres/surface/80"
       class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
     >
       Voir les maisons de plus de 80 m²
     </a>
+
     <a
       href="/offres/prix/250000"
       class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
-      >Moins de 250k</a
     >
+      Moins de 250k
+    </a>
+
     <a
       href="/offres/prix/200000/300000"
       class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm mt-6 inline-block"
-      >200k → 300k</a
     >
+      200k → 300k
+    </a>
   </div>
 
   <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {
       offres.map((offre) => (
-        <div class="offre" data-favori={offre.favori.toString()}>
+        <div class="offre" data-favori={offre.favori?.toString()}>
           <OffreCard offre={offre} />
         </div>
       ))
