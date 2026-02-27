@@ -76,4 +76,20 @@ export async function getOffresBetweenPrix(minPrix, maxPrix) {
 }
 
 
+// Fonction pour ajouter une nouvelle offre
+export async function addOffre(formData) {
+  try {
+    await pb.collection("Maison").create(formData);
 
+    return {
+      success: true,
+      message: "Offre ajoutée avec succès ",
+    };
+  } catch (error) {
+    console.log("Une erreur est survenue en ajoutant la maison", error);
+    return {
+      success: false,
+      message: "Une erreur est survenue en ajoutant la maison ",
+    };
+  }
+}
