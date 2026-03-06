@@ -93,3 +93,37 @@ export async function addOffre(formData) {
     };
   }
 }
+
+
+
+// Fonction pour obtenir tous les agents
+export async function getAgents() {
+    try {
+        const agents = await db.collection("agent").getFullList({
+            sort: "nom",
+        });
+        return agents;
+    } catch (error) {
+        console.log("Erreur lors de la récupération des agents", error);
+        return [];
+    }
+}
+// Fonction pour obtenir les offres d'un agent spécifique
+export async function getOffresByAgent(agentId) {
+    try {
+        const offres = await db.collection("maison").getFullList({
+            filter: `agent="${agentId}"`,
+            sort: "-created",
+        });
+        return offres;
+    } catch (error) {
+        console.log("Erreur lors de la récupération des offres de l'agent", error);
+        return [];
+    }
+}
+
+
+// Fonction pour basculer le statut de favori d'une maison
+export async function setFavori(house) {
+    await db.collection('maison').update(house.id, { favori: !house.favori });
+}
