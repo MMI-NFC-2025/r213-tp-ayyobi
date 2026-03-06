@@ -4,24 +4,57 @@ const { offre } = Astro.props;
 //onsole.log({offre});
 ---
 
-<article class="rounded-lg p-4 shadow-sm rounded-full">
-  <div class="h-44 sm:h-48 overflow-hidden rounded-xl bg-slate-100">
+<article class="rounded-lg p-4 shadow-sm relative">
+  <div class="h-44 sm:h-48 overflow-hidden rounded-xl bg-slate-100 relative">
     <PbImage record={offre} recordImage={offre.images} />
+    <button
+      class="favoriteButton absolute bottom-0 left-0 p-2 text-white rounded-br-lg bg-black bg-opacity-50 hover:bg-opacity-70 transition"
+      data-offre={JSON.stringify(offre)}
+    >
+      <img
+        id="favorite-icon"
+        src={offre.favori ? "/favorite_filled.svg" : "/favorite.svg"}
+        alt="Favorite Icon"
+        class="w-6 h-6"
+      />
+    </button>
   </div>
   <h2 class="text-lg font-semibold">{offre.nom_maison}</h2>
-  <button
-    class="mt-2 px-2 py-1 text-xs rounded-md border
-         transition
+  <a
+    href={`/offres/${offre.id}`}
+    class="mt-2 px-2 py-1 text-xs rounded-md border inline-block transition
          {offre.favori
            ? 'bg-yellow-200 border-yellow-400 text-yellow-900'
            : 'bg-gray-100 border-gray-300 text-gray-600'}"
   >
     {offre.favori ? "⭐ Favori" : "☆ ajouter aux favoris"}
-  </button>
+  </a>
   <a
     href={`/offres/${offre.id}`}
-    class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm"
+    class="mt-2 ml-2 px-5 py-1 text-sm font-semibold shadow-sm rounded-lg border inline-block"
   >
     Voir plus
   </a>
 </article>
+
+<script>
+  //@ts-nocheck
+  import { setFavori } from "../backend.mjs";
+  const favoriteButtons = document.querySelectorAll(".favoriteButton");
+
+  favoriteButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const offreData = JSON.parse(button.dataset.offre || "{}");
+      const newFavori = !offreData.favori;
+
+      await setFavori(offreData);
+
+      const favIcon = button.querySelector("#favorite-icon");
+      if (favIcon) {
+        favIcon.src = newFavori ? "/favorite_filled.svg" : "/favorite.svg";
+      }
+      offreData.favori = newFavori;
+      button.dataset.offre = JSON.stringify(offreData);
+    });
+  });
+</script>

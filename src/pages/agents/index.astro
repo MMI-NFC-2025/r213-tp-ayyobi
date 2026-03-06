@@ -1,29 +1,44 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getAgents } from "../../backend.mjs";
+import PbImage from "../../components/PbImage.astro";
 
 const agents = await getAgents();
+// le résultat est visible dans le terminal lorsque Astro génère la page
+console.log("agents fetched:", agents);
 ---
 
 <Layout titre="Liste des agents">
   <h1 class="text-3xl mb-6">Liste des agents</h1>
 
-  <div class="grid gap-4">
-    {
-      agents.map((agent) => (
-        <div class="border p-4 rounded-lg shadow">
-          <h2 class="text-xl font-semibold">
-            {agent.prenom} {agent.nom}
-          </h2>
+  {
+    agents.length === 0 ? (
+      <p>
+        Aucun agent disponible. Vérifiez que PocketBase est lancé et que la
+        collection "agent" contient des enregistrements.
+      </p>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {agents.map((agent: any) => (
+          <article class="rounded-lg p-4 shadow-sm relative bg-white">
+            {agent.image && (
+              <div class="h-44 sm:h-48 overflow-hidden rounded-xl bg-slate-100 mb-4">
+                <PbImage record={agent} recordImage={agent.image} />
+              </div>
+            )}
+            <h2 class="text-lg font-semibold mb-2">
+              {agent.prenom} {agent.nom}
+            </h2>
 
-          <a
-            href={`/agents/${agent.id}`}
-            class="text-blue-600 underline mt-2 inline-block"
-          >
-            Voir les offres
-          </a>
-        </div>
-      ))
-    }
-  </div>
+            <a
+              href={`/agents/${agent.id}`}
+              class="mt-2 px-5 py-1 text-sm font-semibold shadow-sm rounded-lg border inline-block"
+            >
+              Voir les offres
+            </a>
+          </article>
+        ))}
+      </div>
+    )
+  }
 </Layout>
