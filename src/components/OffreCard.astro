@@ -1,68 +1,92 @@
 ---
 import PbImage from "../components/PbImage.astro";
 const { offre } = Astro.props;
-//console.log({offre});
 ---
 
-<article class="rounded-lg p-4 shadow-sm relative">
-  <div class="h-44 sm:h-48 overflow-hidden rounded-xl bg-slate-100 relative">
+<article
+  class="rounded-lg overflow-hidden bg-white shadow-md hover:shadow-lg transition"
+>
+  <div class="h-48 overflow-hidden bg-slate-100 relative">
     <PbImage record={offre} recordImage={offre.images} />
-    <button
-      class="favoriteButton absolute bottom-0 left-0 p-2 text-white rounded-br-lg bg-black bg-opacity-50 hover:bg-opacity-70 transition"
-      data-offre={JSON.stringify(offre)}
-    >
-      <img
-        id="favorite-icon"
-        src={offre.favori ? "/favorite_filled.svg" : "/favorite.svg"}
-        alt="Favorite Icon"
-        class="w-6 h-6"
-      />
-    </button>
   </div>
-  <h2 class="text-lg font-semibold">{offre.nom_maison}</h2>
-  <a
-    class="mt-2 px-2 py-1 text-xs rounded-md border inline-block transition
-         {offre.favori
-           ? 'bg-yellow-200 border-yellow-400 text-yellow-900'
-           : 'bg-gray-100 border-gray-300 text-gray-600'}"
-  >
-    {offre.favori ? "⭐ Favori" : "☆ Non favori"}
-  </a>
-  <a
-    href={`/offres/${offre.id}`}
-    class="mt-2 ml-2 px-5 py-1 text-sm font-semibold shadow-sm rounded-lg border inline-block"
-  >
-    Voir plus
-  </a>
+  <div class="p-4">
+    <h2 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">
+      {offre.nom_maison}
+    </h2>
+    <div class="space-y-1 mb-4 text-sm text-gray-700">
+      <p>
+        <strong>Prix:</strong>
+        {offre.prix?.toLocaleString("fr-FR") || offre.prix} €
+      </p>
+      <p><strong>Surface:</strong> {offre.surface} m²</p>
+      <p><strong>Adresse:</strong> {offre.adresse}</p>
+    </div>
+    <div class="flex gap-2">
+      <a
+        href={`/offres/${offre.id}`}
+        class="flex-1 text-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+      >
+        Voir plus
+      </a>
+      <button
+        class={`favoriteButton px-3 py-2 rounded-lg font-semibold text-sm border transition cursor-pointer ${
+          offre.favori
+            ? "bg-yellow-100 text-yellow-800 border-yellow-300"
+            : "bg-gray-100 text-gray-700 border-gray-300"
+        }`}
+        data-favorite-label
+        data-offre={JSON.stringify(offre)}
+        type="button"
+      >
+        {offre.favori ? "⭐ Favori" : "☆ Ajouter"}
+      </button>
+    </div>
+  </div>
 </article>
 
 <script>
   //@ts-nocheck
-  favoriteButtons.forEach((button) => {
-    button.addEventListener("click", async () => {
-      const offreData = JSON.parse(button.dataset.offre);
+  const favoriteButtons = document.querySelectorAll(".favoriteButton");
 
-      // inverse le favori
+  favoriteButtons.forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const offreData = JSON.parse(button.dataset.offre || "{}");
       const newFavori = !offreData.favori;
 
-      // update dans PocketBase
-      await setFavori(offreData);
+      const response = await fetch("/api/setFavori", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...offreData,
+          favori: newFavori,
+        }),
+      });
 
-      // changer l'icone
-      const favIcon = button.querySelector("#favorite-icon");
-      if (favIcon) {
+      if (!response.ok) {
+        console.error("Erreur API favori", await response.text());
+        return;
+      }
+
+      const article = button.closest("article");
+      const favIcon = article?.querySelector("#favorite-icon");
+      if (favIcon instanceof HTMLImageElement) {
         favIcon.src = newFavori ? "/favorite_filled.svg" : "/favorite.svg";
       }
 
-      // mettre à jour l'objet
+      if (button instanceof HTMLButtonElement) {
+        button.textContent = newFavori ? "⭐ Favori" : "☆ Ajouter";
+        button.className = `favoriteButton px-3 py-2 rounded-lg font-semibold text-sm border transition cursor-pointer ${
+          newFavori
+            ? "bg-yellow-100 text-yellow-800 border-yellow-300"
+            : "bg-gray-100 text-gray-700 border-gray-300"
+        }`;
+      }
+
       offreData.favori = newFavori;
       button.dataset.offre = JSON.stringify(offreData);
-
-      // mettre à jour le dataset de la carte
-      const offreContainer = button.closest(".offre");
-      if (offreContainer) {
-        offreContainer.dataset.favori = newFavori;
-      }
     });
   });
 </script>

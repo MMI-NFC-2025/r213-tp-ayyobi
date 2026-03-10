@@ -1,6 +1,7 @@
-import { setFavori } from "../../backend.mjs";
+import { s as setFavori } from '../../chunks/backend_B_PQ7pvs.mjs';
+export { renderers } from '../../renderers.mjs';
 
-export async function POST({ request }) {
+async function POST({ request }) {
   try {
     const house = await request.json();
     const updatedHouse = await setFavori(house);
@@ -22,3 +23,12 @@ export async function POST({ request }) {
     );
   }
 }
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  POST
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };

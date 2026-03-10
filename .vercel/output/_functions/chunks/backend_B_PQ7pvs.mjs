@@ -1,7 +1,8 @@
-import PocketBase from "pocketbase";
+import PocketBase from 'pocketbase';
+
 const pb = new PocketBase("http://127.0.0.1:8090");
 
-export async function getOffres() {
+async function getOffres() {
     try {
         let data = await pb.collection('Maison').getFullList({
             sort: '-created',
@@ -13,12 +14,12 @@ export async function getOffres() {
     }
 }
 // Fonction pour obtenir l'URL d'une image à partir d'un enregistrement et du champ image   
-export async function getImageUrl(record, recordImage) {
+async function getImageUrl(record, recordImage) {
     return pb.files.getURL(record, recordImage);
 }
 
 // Exemple de fonction pour obtenir une offre par ID
-export async function getOffre(id) {
+async function getOffre(id) {
     try {
         const data = await pb.collection('Maison').getOne(id);
         return data;
@@ -30,7 +31,7 @@ export async function getOffre(id) {
 
 
 // Fonction pour obtenir les offres avec une surface minimale
-export async function getOffresMinSurface(surface) {
+async function getOffresMinSurface(surface) {
   try {
     const data = await pb.collection('Maison').getFullList({
       filter: `surface >= ${surface}`,
@@ -45,7 +46,7 @@ export async function getOffresMinSurface(surface) {
 
 
 // fonction pour ontenir les offres à prix moin de 250000
-export async function getOffresMaxPrix(maxPrix) {
+async function getOffresMaxPrix(maxPrix) {
   try {
     const data = await pb.collection("Maison").getFullList({
       filter: `prix < ${maxPrix}`,
@@ -59,7 +60,7 @@ export async function getOffresMaxPrix(maxPrix) {
 }
 
 // fonction pour ontenir les offres à prix entre 200000 et 300000
-export async function getOffresBetweenPrix(minPrix, maxPrix) {
+async function getOffresBetweenPrix(minPrix, maxPrix) {
   try {
     const min = Math.min(minPrix, maxPrix);
     const max = Math.max(minPrix, maxPrix);
@@ -77,7 +78,7 @@ export async function getOffresBetweenPrix(minPrix, maxPrix) {
 
 
 // Fonction pour ajouter une nouvelle offre
-export async function addOffre(formData) {
+async function addOffre(formData) {
   try {
     await pb.collection("Maison").create(formData);
 
@@ -97,7 +98,7 @@ export async function addOffre(formData) {
 
 
 // Fonction pour obtenir tous les agents
-export async function getAgents() {
+async function getAgents() {
     try {
         const agents = await pb.collection("agent").getFullList({
             sort: "nom",
@@ -109,7 +110,7 @@ export async function getAgents() {
     }
 }
 // Fonction pour obtenir les offres d'un agent spécifique
-export async function getOffresByAgent(agentId) {
+async function getOffresByAgent(agentId) {
     try {
         const offres = await pb.collection("Maison").getFullList({
             filter: `agent="${agentId}"`,
@@ -124,7 +125,7 @@ export async function getOffresByAgent(agentId) {
 
 
 // Fonction pour mettre a jour le statut favori d'une maison
-export async function setFavori(house) {
+async function setFavori(house) {
   try {
     return await pb.collection("Maison").update(house.id, {
       favori: house.favori,
@@ -136,7 +137,7 @@ export async function setFavori(house) {
 }
 
 // Fonction pour obtenir les offres favorites
-export async function getFavoriteOffres() {
+async function getFavoriteOffres() {
     try {
         return await pb.collection("Maison").getFullList({
             filter: "favori=true",
@@ -147,3 +148,5 @@ export async function getFavoriteOffres() {
         return [];
     }
 }
+
+export { getOffresByAgent as a, addOffre as b, getOffresBetweenPrix as c, getOffresMaxPrix as d, getOffresMinSurface as e, getOffre as f, getAgents as g, getOffres as h, getFavoriteOffres as i, getImageUrl as j, setFavori as s };

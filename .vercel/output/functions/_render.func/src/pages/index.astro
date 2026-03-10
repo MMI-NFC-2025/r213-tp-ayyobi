@@ -1,0 +1,71 @@
+---
+import Layout from "../layouts/Layout.astro";
+import OffreCard from "../components/OffreCard.astro";
+import { getFavoriteOffres } from "../backend.mjs";
+
+const favoriteOffres = await getFavoriteOffres();
+---
+
+<Layout titre="Accueil">
+  <section class="relative overflow-hidden rounded-3xl border p-6 md:p-10">
+    <div
+      class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute -bottom-20 -left-16 h-48 w-48 rounded-full"
+    >
+    </div>
+
+    <div class="relative space-y-4">
+      <p
+        class="text-xs uppercase tracking-[0.3em] text-(--brand-muted) motion-safe:animate-[rise_0.6s_ease-out_both]"
+      >
+        Agence immobiliere
+      </p>
+      <h1
+        class="text-3xl font-semibold text-(--brand-ink) md:text-5xl font-['Fraunces'] motion-safe:animate-[rise_0.6s_ease-out_both]"
+        style="animation-delay: 0.05s"
+      >
+        Trouvez le bien qui vous ressemble, quartier par quartier.
+      </h1>
+      <p
+        class="max-w-2xl text-base text-slate-600 md:text-lg motion-safe:animate-[rise_0.6s_ease-out_both]"
+        style="animation-delay: 0.1s"
+      >
+        Nous selectionnons des logements lumineux, bien situes et prets a
+        visiter. Un parcours simple, des offres claires, et un suivi humain.
+      </p>
+      <div
+        class="flex flex-wrap gap-3 motion-safe:animate-[rise_0.6s_ease-out_both]"
+        style="animation-delay: 0.15s"
+      >
+        <a
+          class="rounded-full px-5 py-2 text-sm font-semibold shadow-sm"
+          href="/offres"
+        >
+          Voir les offres
+        </a>
+        <a
+          class="rounded-full border px-5 py-2 text-sm font-semibold text-slate-700 transition"
+          href="#services"
+        >
+          Nos services
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {
+    favoriteOffres.length > 0 && (
+      <section class="mt-12">
+        <h2 class="text-2xl font-semibold mb-6">Nos coups de coeur</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {favoriteOffres.map((offre: any) => (
+            <OffreCard offre={offre} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</Layout>
