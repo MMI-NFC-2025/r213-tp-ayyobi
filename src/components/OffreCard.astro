@@ -1,7 +1,7 @@
 ---
 import PbImage from "../components/PbImage.astro";
 const { offre } = Astro.props;
-//onsole.log({offre});
+//console.log({offre});
 ---
 
 <article class="rounded-lg p-4 shadow-sm relative">
@@ -21,13 +21,12 @@ const { offre } = Astro.props;
   </div>
   <h2 class="text-lg font-semibold">{offre.nom_maison}</h2>
   <a
-    href={`/offres/${offre.id}`}
     class="mt-2 px-2 py-1 text-xs rounded-md border inline-block transition
          {offre.favori
            ? 'bg-yellow-200 border-yellow-400 text-yellow-900'
            : 'bg-gray-100 border-gray-300 text-gray-600'}"
   >
-    {offre.favori ? "⭐ Favori" : "☆ ajouter aux favoris"}
+    {offre.favori ? "⭐ Favori" : "☆ Non favori"}
   </a>
   <a
     href={`/offres/${offre.id}`}
@@ -39,22 +38,31 @@ const { offre } = Astro.props;
 
 <script>
   //@ts-nocheck
-  import { setFavori } from "../backend.mjs";
-  const favoriteButtons = document.querySelectorAll(".favoriteButton");
-
   favoriteButtons.forEach((button) => {
     button.addEventListener("click", async () => {
-      const offreData = JSON.parse(button.dataset.offre || "{}");
+      const offreData = JSON.parse(button.dataset.offre);
+
+      // inverse le favori
       const newFavori = !offreData.favori;
 
+      // update dans PocketBase
       await setFavori(offreData);
 
+      // changer l'icone
       const favIcon = button.querySelector("#favorite-icon");
       if (favIcon) {
         favIcon.src = newFavori ? "/favorite_filled.svg" : "/favorite.svg";
       }
+
+      // mettre à jour l'objet
       offreData.favori = newFavori;
       button.dataset.offre = JSON.stringify(offreData);
+
+      // mettre à jour le dataset de la carte
+      const offreContainer = button.closest(".offre");
+      if (offreContainer) {
+        offreContainer.dataset.favori = newFavori;
+      }
     });
   });
 </script>

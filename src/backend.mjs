@@ -111,7 +111,7 @@ export async function getAgents() {
 // Fonction pour obtenir les offres d'un agent spécifique
 export async function getOffresByAgent(agentId) {
     try {
-        const offres = await pb.collection("maison").getFullList({
+        const offres = await pb.collection("Maison").getFullList({
             filter: `agent="${agentId}"`,
             sort: "-created",
         });
@@ -125,13 +125,13 @@ export async function getOffresByAgent(agentId) {
 
 // Fonction pour basculer le statut de favori d'une maison
 export async function setFavori(house) {
-    await pb.collection('maison').update(house.id, { favori: !house.favori });
+    await pb.collection('Maison').update(house.id, { favori: !house.favori });
 }
 
 // Fonction pour obtenir les offres favorites
 export async function getFavoriteOffres() {
     try {
-        return await pb.collection("maison").getFullList({
+        return await pb.collection("Maison").getFullList({
             filter: "favori=true",
             sort: "-created",
         });
