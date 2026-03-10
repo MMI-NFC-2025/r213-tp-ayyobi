@@ -31,13 +31,18 @@ if (Astro.request.method === "POST") {
       class="w-full p-2 border rounded"
     />
 
-    <input
-      type="number"
-      name="prix"
-      placeholder="Prix"
-      required
-      class="w-full p-2 border rounded"
-    />
+    <div class="relative">
+      <input
+        type="number"
+        name="prix"
+        placeholder="Prix"
+        required
+        class="w-full p-2 border rounded pr-10"
+      />
+      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+        >€</span
+      >
+    </div>
 
     <input
       type="number"
@@ -53,12 +58,17 @@ if (Astro.request.method === "POST") {
       class="w-full p-2 border rounded"
     />
 
-    <input
-      type="number"
-      name="surface"
-      placeholder="Surface (m²)"
-      class="w-full p-2 border rounded"
-    />
+    <div class="relative">
+      <input
+        type="number"
+        name="surface"
+        placeholder="Surface"
+        class="w-full p-2 border rounded pr-10"
+      />
+      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+        >m²</span
+      >
+    </div>
 
     <input
       type="text"
